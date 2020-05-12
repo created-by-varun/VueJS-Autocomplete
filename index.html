@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>VueJS Autocomplete</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+
+<script type="text/x-template" id="autocomplete-tpl">
+    <div class="autocomplete">
+      <label :for="id">{{label}}</label>
+      <textarea v-if="textarea" :id="id" :rows="rows" :cols="cols" class="autocomplete-input" :placeholder="placeholder" @focusout="focusout" @focus="focus" @keydown.13="chooseItem" @keydown.tab="chooseItem" @keydown.40="moveDown" @keydown.38="moveUp" v-model="inputValue"
+        type="text"></textarea>
+      <input v-else :id="id" class="autocomplete-input" :placeholder="placeholder" @focusout="focusout" @focus="focus" @keydown.13="chooseItem" @keydown.tab="chooseItem" @keydown.40="moveDown" @keydown.38="moveUp" v-model="inputValue" type="text">
+
+
+      <ul :class="{
+        'autocomplete-list': true,
+        [id+'-list']: true
+      }" v-if="searchMatch.length > 0">
+        <li :class="{active: selectedIndex === index}" v-for="(result, index) in searchMatch" @click="selectItem(index), chooseItem()" v-html="highlightWord(result)">
+
+        </li>
+      </ul>
+    </div>
+</script>
+
+
+<div id="app">
+
+ <div class="container">
+  <div class="container-row">
+   <div class="container-item">
+    <h2>VueJs - Autocomplete</h2>
+    <p>A small proof of concept of an autocomplete<br />component in VueJS. Use your arrow keys to navigate,<br /> tab to choose first result, <br />enter or mouse to choose selected item.</p>
+   </div>
+
+
+   <div class="container-item">
+    <autocomplete label="Standard items:" placeholder="span, div, h1..." />
+   </div>
+
+   <div class="container-item">
+    <br />
+    <br />
+    <autocomplete label="Custom items:" :items="['all', 'auto', 'complete', 'items']" placeholder="all, auto..." />
+   </div>
+		<div class="container-item">
+    <br />
+    <br />
+    <autocomplete label="Textarea" rows="5" placeholder="Your text..." textarea="true" />
+   </div>
+  </div>
+ </div>
+</div>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.3/vue.js'></script><script  src="./script.js"></script>
+
+</body>
+</html>
